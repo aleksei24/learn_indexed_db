@@ -1,0 +1,30 @@
+{
+  "name": "learn_indexed_db",
+  "version": "1.0.0",
+  "description": "learning how to use indexedDB with webpack",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aleksei24/learn_indexed_db.git"
+  },
+  "keywords": [
+    "indexedDB",
+    "idb",
+    "webpack",
+    "webpack 5",
+    "webpack-cli"
+  ],
+  "author": "me (Mr. A)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/aleksei24/learn_indexed_db/issues"
+  },
+  "homepage": "https://github.com/aleksei24/learn_indexed_db#readme",
+  "devDependencies": {
+    "webpack": "^5.74.0",
+    "webpack-cli": "^4.10.0"
+  }
+}
