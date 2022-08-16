@@ -10,4 +10,9 @@ module.exports = {
     path: path.resolve(__dirname, 'out'),
     clean: { dry: true },
   },
+
+  devServer: {
+    port: 9000,
+    static: false,
+  },
 };
