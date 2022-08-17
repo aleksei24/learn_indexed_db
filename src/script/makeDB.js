@@ -47,3 +47,43 @@ function addData(e) {
     console.error('Transaction not opened due to error: ', err);
   });
 }
+
+function displayData() {
+  while (list.firstChild) {
+    list.removeChild(list.firstChild);
+  }
+
+  const objectStore = db.transaction('test_object_store').objectStore('test_object_store');
+  objectStore.openCursor().addEventListener('success', (e) => {
+    const cursor = e.target.result;
+
+    if (cursor) {
+      const listItem = document.createElement('li');
+      const itemTitle = document.createElement('h3');
+      const itemText = document.createElement('p');
+
+      listItem.appendChild(itemTitle);
+      listItem.appendChild(itemText);
+      list.appendChild(listItem);
+
+      itemTitle.textContent = cursor.value.title;
+      itemText.textContent = cursor.value.body;
+
+      listItem.setAttribute('data-note-id', cursor.value.id);
+
+      const deleteBtn = document.createElement('button');
+      listItem.appendChild(deleteBtn);
+      deleteBtn.textContent = 'Delete';
+
+      cursor.continue();
+    } else {
+      if (!list.firstChild) {
+        const listItem = document.createElement('li');
+        listItem.textContent = 'No notes stored';
+        list.appendChild(listItem);
+      }
+
+      console.log('Notes all displayed');
+    }
+  });
+}
