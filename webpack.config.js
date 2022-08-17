@@ -16,12 +16,15 @@ module.exports = {
   devServer: {
     port: 9000,
     static: false,
+    open: true,
+    hot: false,
   },
 
   plugins: [
     new HtmlWebpackPlugin({
       title: 'Learning IndexedDB',
       template: './src/index.html',
+      favicon: './src/fav/fav.png',
     }),
   ],
 };
