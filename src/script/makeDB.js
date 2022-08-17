@@ -25,3 +25,32 @@ openRequest.addEventListener('upgradeneeded', (e) => {
 
   console.log('Database setup is complete');
 });
+
+import { form, btn, titleInput, bodyInput } from './variables';
+
+form.addEventListener('submit', addData);
+
+function addData(e) {
+  e.preventDefault();
+
+  const newItem = {
+    title: titleInput.value,
+    body: bodyInput.value,
+  };
+  const transaction = db.transaction(['notes_store'], 'readwrite');
+  const objectStore = transaction.objectStore('notes_store');
+  const addRequest = objectStore.add(newItem);
+
+  addRequest.addEventListener('success', () => {
+    titleInput.value = '';
+    bodyInput.value = '';
+  });
+
+  transaction.addEventListener('complete', () => {
+    console.log('Transaction completed');
+  });
+
+  transaction.addEventListener('error', (err) => {
+    console.error('Transaction not opened due to error: ', err);
+  });
+}
