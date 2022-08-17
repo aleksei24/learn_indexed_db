@@ -26,7 +26,7 @@ openRequest.addEventListener('upgradeneeded', (e) => {
   console.log('Database setup is complete');
 });
 
-import { form, btn, titleInput, bodyInput } from './variables';
+import { form, btn, titleInput, bodyInput, list } from './variables';
 
 form.addEventListener('submit', addData);
 
@@ -52,5 +52,49 @@ function addData(e) {
 
   transaction.addEventListener('error', (err) => {
     console.error('Transaction not opened due to error: ', err);
+  });
+}
+
+function displayData() {
+  while (list.firstChild) {
+    list.removeChild(list.firstChild);
+  }
+
+  const objectStore = db.transaction('notes_store').objectStore('notes_store');
+  objectStore.openCursor().addEventListener('success', (e) => {
+    const cursor = e.target.result;
+
+    if (cursor) {
+      const listItem = document.createElement('li');
+      const itemTitle = document.createElement('h3');
+      const itemText = document.createElement('p');
+
+      listItem.appendChild(itemTitle);
+      listItem.appendChild(itemText);
+      list.appendChild(listItem);
+
+      itemTitle.textContent = cursor.value.title;
+      itemText.textContent = cursor.value.body;
+
+      listItem.setAttribute('data-node-id', cursor.value.id);
+
+      const deleteBtn = document.createElement('button');
+      listItem.appendChild(deleteBtn);
+      deleteBtn.textContent = 'Delete';
+
+      deleteBtn.addEventListener('click', () => {
+        console.log('Delete');
+      });
+
+      cursor.continue();
+    } else {
+      if (!list.firstChild) {
+        const listItem = document.createElement('li');
+        listItem.textContent = 'No notes stored';
+        list.appendChild(listItem);
+      }
+
+      console.log('All notes displayed');
+    }
   });
 }
