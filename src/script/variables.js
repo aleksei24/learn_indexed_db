@@ -1,2 +1,1 @@
-const list = document.querySelector('ul');
-console.log(list);
+export const list = document.querySelector('ul');
