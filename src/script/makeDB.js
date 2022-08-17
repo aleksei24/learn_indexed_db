@@ -10,6 +10,8 @@ openRequest.addEventListener('success', () => {
   console.log('Database opened successfully');
 
   db = openRequest.result;
+
+  displayData();
 });
 
 openRequest.addEventListener('upgradeneeded', (e) => {
@@ -48,6 +50,7 @@ function addData(e) {
 
   transaction.addEventListener('complete', () => {
     console.log('Transaction completed');
+    displayData();
   });
 
   transaction.addEventListener('error', (err) => {
@@ -76,15 +79,13 @@ function displayData() {
       itemTitle.textContent = cursor.value.title;
       itemText.textContent = cursor.value.body;
 
-      listItem.setAttribute('data-node-id', cursor.value.id);
+      listItem.setAttribute('data-note-id', cursor.value.id);
 
       const deleteBtn = document.createElement('button');
       listItem.appendChild(deleteBtn);
       deleteBtn.textContent = 'Delete';
 
-      deleteBtn.addEventListener('click', () => {
-        console.log('Delete');
-      });
+      deleteBtn.addEventListener('click', deleteItem());
 
       cursor.continue();
     } else {
@@ -95,6 +96,24 @@ function displayData() {
       }
 
       console.log('All notes displayed');
+    }
+  });
+}
+
+function deleteItem(e) {
+  const noteID = Number(e.target.parentNode.getAttribute('data-note-id'));
+  const transaction = db.transaction(['notes_store'], 'readwrite');
+  const objectStore = transaction.objectStore('notes_store');
+  const deleteRequest = objectStore.delete(noteID);
+
+  transaction.addEventListener('complete', () => {
+    e.target.parentNode.parentNode.removeChild(e.target.parentNode);
+    console.log(`Note ${noteID} deleted`);
+
+    if (!list.firstChild) {
+      const listItem = document.createElement('li');
+      listItem.textContent = 'No notes stored';
+      list.appendChild(listItem);
     }
   });
 }
