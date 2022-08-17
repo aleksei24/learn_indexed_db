@@ -1,4 +1,6 @@
 const path = require('path');
+const HTMLWebpackPlugin = require('html-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   mode: 'development',
@@ -15,4 +17,11 @@ module.exports = {
     port: 9000,
     static: false,
   },
+
+  plugins: [
+    new HtmlWebpackPlugin({
+      title: 'Learning IndexedDB',
+      template: './src/index.html',
+    }),
+  ],
 };
