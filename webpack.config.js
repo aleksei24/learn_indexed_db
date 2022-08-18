@@ -1,5 +1,5 @@
 const path = require('path');
-const HTMLWebpackPlugin = require('html-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   mode: 'development',
@@ -30,11 +30,11 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.a[ac]ss$/i,
+        test: /\.s[ac]ss$/i,
         use: ['style-loader', 'css-loader', 'sass-loader'],
       },
     ],
   },
 
-  devtool: 'eval',
+  devtool: 'eval-source-map',
 };
