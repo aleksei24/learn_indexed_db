@@ -2,7 +2,7 @@ import { form, btn, titleInput, bodyInput, list } from './variables';
 
 let db;
 
-const openRequest = window.indexedDB.open('notes_db', 1);
+const openRequest = window.indexedDB.open('test_notes_db', 1);
 
 openRequest.addEventListener('error', () => console.error('Database failed to open'));
 
@@ -59,15 +59,15 @@ function displayData() {
 
     if (cursor) {
       const listItem = document.createElement('li');
-      const h3 = document.createElement('h3');
-      const para = document.createElement('p');
+      const itemTitle = document.createElement('h3');
+      const itemText = document.createElement('p');
 
-      listItem.appendChild(h3);
-      listItem.appendChild(para);
+      listItem.appendChild(itemTitle);
+      listItem.appendChild(itemText);
       list.appendChild(listItem);
 
-      h3.textContent = cursor.value.title;
-      para.textContent = cursor.value.body;
+      itemTitle.textContent = cursor.value.title;
+      itemText.textContent = cursor.value.body;
 
       listItem.setAttribute('data-note-id', cursor.value.id);
 
